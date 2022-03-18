@@ -35,7 +35,7 @@ namespace Better079.Commands
 
             Player player = Player.Get((sender as PlayerCommandSender).ReferenceHub);
 
-            if (player.Role != RoleType.Scp079)
+            if (player.Role.Type != RoleType.Scp079)
             {
                 response = "Sorry but you can't use this command while you is not SCP-079";
                 return true;

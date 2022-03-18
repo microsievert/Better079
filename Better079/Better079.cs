@@ -1,11 +1,13 @@
 ﻿using Better079.Events;
 using Exiled.API.Features;
+using System;
 
 namespace Better079
 {
     public class Better079 : Plugin<Config>
     {
         public override string Author => "microsievert";
+        public override Version RequiredExiledVersion => new Version("5.0.0");
 
         public static Better079 Instance;
 

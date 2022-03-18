@@ -45,11 +45,13 @@
     <Reference Include="CommandSystem.Core">
       <HintPath>C:\Users\microsievert\Documents\EXILED\MODULES\CommandSystem.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API">
-      <HintPath>C:\Users\microsievert\Documents\EXILED\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
+    <Reference Include="Exiled.API, Version=4.2.3.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\microsievert\Documents\EXILED\5.0\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Events">
-      <HintPath>C:\Users\microsievert\Documents\EXILED\EXILED\Plugins\Exiled.Events.dll</HintPath>
+    <Reference Include="Exiled.Events, Version=4.2.3.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\microsievert\Documents\EXILED\5.0\EXILED\Plugins\Exiled.Events.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>C:\Users\microsievert\Documents\EXILED\MODULES\Mirror.dll</HintPath>

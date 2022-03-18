@@ -30,13 +30,13 @@ namespace Better079.Commands
 
             Player player = Player.Get((sender as PlayerCommandSender).ReferenceHub);
 
-            if (player.Role != RoleType.Scp079)
+            if (player.Role.Type != RoleType.Scp079)
             {
                 response = "Sorry but you can't use this command while you is not SCP-079";
                 return true;
             }
 
-            Scp079PlayerScript playerScript = player.GameObject.GetComponent<Scp079PlayerScript>();
+            Scp079PlayerScript playerScript = player.ReferenceHub.scp079PlayerScript;
 
             if (float.TryParse(arguments.At<string>(0), out float time) && playerScript.Mana >= 90)
             {

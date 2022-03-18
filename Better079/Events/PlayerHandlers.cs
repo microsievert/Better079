@@ -15,7 +15,7 @@ namespace Better079.Events
 
         public void OnSpawning(SpawningEventArgs ev)
         {
-            if (ev.Player.Role != RoleType.Scp079)
+            if (ev.Player.Role.Type != RoleType.Scp079)
                 return;
 
             _scp079 = ev.Player;
@@ -29,13 +29,13 @@ namespace Better079.Events
 
         public void OnDied(DiedEventArgs ev)
         {
-            if (ev.Target.Role == RoleType.Scp079)
+            if (ev.Target.Role.Type == RoleType.Scp079)
                 TerminateCheckCoroutines();
         }
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (ev.Player.Role == RoleType.Scp079)
+            if (ev.Player.Role.Type == RoleType.Scp079)
                 TerminateCheckCoroutines();
         }
 
@@ -46,7 +46,7 @@ namespace Better079.Events
             if (_scp079 == null)
                 yield break;
 
-            Scp079PlayerScript scp079Script = _scp079.GameObject.GetComponent<Scp079PlayerScript>();
+            Scp079PlayerScript scp079Script = _scp079.ReferenceHub.scp079PlayerScript;
 
             yield return Timing.WaitForSeconds(1f);
 
@@ -70,7 +70,7 @@ namespace Better079.Events
 
         private IEnumerator<float> TierLevelup()
         {
-            Scp079PlayerScript playerScript = _scp079.GameObject.GetComponent<Scp079PlayerScript>();
+            Scp079PlayerScript playerScript = _scp079.ReferenceHub.scp079PlayerScript;
 
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);
 
