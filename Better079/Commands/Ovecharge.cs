@@ -10,7 +10,7 @@ namespace Better079.Commands
     public class Ovecharge : ICommand
     {
         public string Command => "overcharge";
-        public string Description => "Disables all light system";
+        public string Description => "Disables all light in facility for selected time (Can be called only as SCP-079)";
 
         public string[] Aliases => Array.Empty<string>();
 
@@ -48,7 +48,7 @@ namespace Better079.Commands
 
                 Map.TurnOffAllLights(time);
 
-                GameObject.FindObjectOfType<AmbientSoundPlayer>().RpcPlaySound(UnityEngine.Random.Range(6, 7));
+                GameObject.FindObjectOfType<AmbientSoundPlayer>().RpcPlaySound(UnityEngine.Random.Range(6, 7));             
 
                 playerScript.Mana -= Better079.Instance.Config.OverchargePrice;
 

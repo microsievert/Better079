@@ -57,7 +57,7 @@ namespace Better079.Events
                 if (_scp079 == null)
                     yield break;
 
-                foreach (Player target in Player.List.Where(x => MapUtils.HaveSameZone(x.GameObject.transform, scp079Script.currentCamera.transform)))
+                foreach (Player target in Player.List.Where(x => MapUtils.InSameZone(x.GameObject.transform, scp079Script.currentCamera.transform)))
                     coordinatesPocket.Add(target.Position);
 
                 scp079Script.TargetSetupIndicators(_scp079.ReferenceHub.networkIdentity.connectionToClient, coordinatesPocket);

@@ -24,7 +24,7 @@ namespace Better079.Utils
             }
         }
 
-        public static bool HaveSameZone(Transform firstObject, Transform secondObject)
+        public static bool InSameZone(Transform firstObject, Transform secondObject)
         {
             return GetObjectZone(firstObject) == GetObjectZone(secondObject);
         }
