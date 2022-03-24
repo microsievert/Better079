@@ -1,9 +1,7 @@
 ﻿using CommandSystem;
-using UnityEngine;
 using RemoteAdmin;
 using System;
 using Exiled.API.Features;
-using MapGeneration.Distributors;
 using MEC;
 
 namespace Better079.Commands
@@ -44,9 +42,9 @@ namespace Better079.Commands
             {
                 player.ReferenceHub.scp079PlayerScript.Mana = 0f;
 
-                foreach (Scp079Generator generator in GameObject.FindObjectsOfType<Scp079Generator>())
+                foreach (Generator generator in Generator.List)
                 {
-                    generator.Activating = false;
+                    generator.IsActivating = false;
 
                     Map.TurnOffAllLights(1f);
                 }
