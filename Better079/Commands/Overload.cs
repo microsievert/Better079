@@ -42,7 +42,7 @@ namespace Better079.Commands
             
             if (_dropAllowed)
             {
-                player.GameObject.GetComponent<Scp079PlayerScript>().Mana = 0f;
+                player.ReferenceHub.scp079PlayerScript.Mana = 0f;
 
                 foreach (Scp079Generator generator in GameObject.FindObjectsOfType<Scp079Generator>())
                 {
