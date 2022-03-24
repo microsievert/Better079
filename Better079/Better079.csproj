@@ -77,7 +77,7 @@
   <ItemGroup>
     <Compile Include="Better079.cs" />
     <Compile Include="Commands\Overload.cs" />
-    <Compile Include="Commands\Ovecharge.cs" />
+    <Compile Include="Commands\Overcharge.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Events\PlayerHandlers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
