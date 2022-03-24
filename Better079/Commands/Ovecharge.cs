@@ -48,7 +48,7 @@ namespace Better079.Commands
 
                 Map.TurnOffAllLights(time);
 
-                GameObject.FindObjectOfType<AmbientSoundPlayer>().RpcPlaySound(UnityEngine.Random.Range(6, 7));             
+                Map.AmbientSoundPlayer.RpcPlaySound(UnityEngine.Random.Range(6, 7));
 
                 playerScript.Mana -= Better079.Instance.Config.OverchargePrice;
 
