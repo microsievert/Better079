@@ -1,6 +1,7 @@
 ﻿using Exiled.Events.EventArgs;
 using Exiled.API.Features;
 using System.Collections.Generic;
+using Exiled.API.Features.Roles;
 using Better079.Utils;
 using UnityEngine;
 using System.Linq;
@@ -9,44 +10,40 @@ using MEC;
 namespace Better079.Events
 {
     public class PlayerHandlers
-    {
-        private Player _scp079;
-        private CoroutineHandle _scp079AbilityProcessorCoroutine;
+    {   
+        private Dictionary<Player, CoroutineHandle[]> PlayersCoroutines = new Dictionary<Player, CoroutineHandle[]>();
 
         public void OnSpawning(SpawningEventArgs ev)
         {
-            if (ev.Player.Role.Type != RoleType.Scp079)
+            if (!ev.Player.Role.Is<Scp079Role>(out _))
                 return;
 
-            _scp079 = ev.Player;
-
-            if (Better079.Instance.Config.BetterMapEnabled)
-                _scp079AbilityProcessorCoroutine = Timing.RunCoroutine(AbilityProcessor());
-
-            if (Better079.Instance.Config.AutoTierEnabled)
-                Timing.RunCoroutine(TierLevelup());
+            PlayersCoroutines.Add(ev.Player, new CoroutineHandle[] { Timing.RunCoroutine(AbilityProcessor(ev.Player)), Timing.RunCoroutine(TierLevelup(ev.Player)) });
         }
 
         public void OnDied(DiedEventArgs ev)
         {
-            if (ev.Target.Role.Type == RoleType.Scp079)
-                TerminateCheckCoroutines();
+            if (ev.Target.Role.Is<Scp079Role>(out _))
+                TerminateCheckCoroutines(ev.Target);
         }
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (ev.Player.Role.Type == RoleType.Scp079)
-                TerminateCheckCoroutines();
+            if (ev.Player.Role.Is<Scp079Role>(out _))
+                TerminateCheckCoroutines(ev.Player);
         }
 
-        private void TerminateCheckCoroutines() => Timing.KillCoroutines(_scp079AbilityProcessorCoroutine);
-
-        private IEnumerator<float> AbilityProcessor()
+        private void TerminateCheckCoroutines(Player player)
         {
-            if (_scp079 == null)
-                yield break;
+            if (!PlayersCoroutines.ContainsKey(player))
+                return;
 
-            Scp079PlayerScript scp079Script = _scp079.ReferenceHub.scp079PlayerScript;
+            Timing.KillCoroutines(PlayersCoroutines[player]);
+        }
+
+        private IEnumerator<float> AbilityProcessor(Player scp079)
+        {
+            Scp079PlayerScript scp079Script = scp079.ReferenceHub.scp079PlayerScript;
 
             yield return Timing.WaitForSeconds(1f);
 
@@ -54,28 +51,21 @@ namespace Better079.Events
 
             for (;;)
             {
-                if (_scp079 == null)
-                    yield break;
-
-                foreach (Player target in Player.List.Where(x => MapUtils.InSameZone(x.GameObject.transform, scp079Script.currentCamera.transform)))
+                foreach (Player target in Player.List.Where(player => MapUtils.InSameZone(player.GameObject.transform, scp079Script.currentCamera.transform) && player != scp079))
                     coordinatesPocket.Add(target.Position);
 
-                scp079Script.TargetSetupIndicators(_scp079.ReferenceHub.networkIdentity.connectionToClient, coordinatesPocket);
+                scp079Script.TargetSetupIndicators(scp079.ReferenceHub.networkIdentity.connectionToClient, coordinatesPocket);
 
                 coordinatesPocket.Clear();
 
                 yield return Timing.WaitForSeconds(0.6f);
             }
         }
-
-        private IEnumerator<float> TierLevelup()
+        private IEnumerator<float> TierLevelup(Player scp079)
         {
-            Scp079PlayerScript playerScript = _scp079.ReferenceHub.scp079PlayerScript;
+            Scp079PlayerScript playerScript = scp079.ReferenceHub.scp079PlayerScript;
 
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);
-
-            if (_scp079 == null)
-                yield break;
 
             playerScript.ForceLevel((byte)Better079.Instance.Config.AutoTierLevel, true);
         }

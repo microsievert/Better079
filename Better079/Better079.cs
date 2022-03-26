@@ -6,8 +6,8 @@ namespace Better079
 {
     public class Better079 : Plugin<Config>
     {
-        public override string Author => "microsievert";
-        public override Version RequiredExiledVersion => new Version("5.0.0");
+        public override string Author { get; } = "microsievert";
+        public override Version RequiredExiledVersion { get; } = new Version("5.0.0");
 
         public static Better079 Instance;
 

@@ -2,6 +2,7 @@
 using CommandSystem;
 using RemoteAdmin;
 using Exiled.API.Features;
+using Exiled.API.Features.Roles;
 
 namespace Better079.Commands
 {
@@ -23,15 +24,15 @@ namespace Better079.Commands
 
             if (!(sender is PlayerCommandSender))
             {
-                response = "Only players can call this command";
+                response = "Only players can call this command.";
                 return false;
             }
 
-            Player player = Player.Get((sender as PlayerCommandSender).ReferenceHub);
+            Player player = Player.Get(sender);
 
-            if (player.Role.Type != RoleType.Scp079)
+            if (!player.Role.Is<Scp079Role>(out _))
             {
-                response = "Sorry but you can't use this command while you is not SCP-079";
+                response = "Sorry but only SCP-079 can call this command.";
                 return true;
             }
 
@@ -53,8 +54,6 @@ namespace Better079.Commands
 
                 response = "Command successfully executed by facility servers.";
                 return true;
-
-                
             }
 
             response = "Command execution error";

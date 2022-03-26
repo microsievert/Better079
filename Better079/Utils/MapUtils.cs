@@ -6,6 +6,7 @@ namespace Better079.Utils
     public static class MapUtils
     {
         // Map utils methods (May be I will add more methods in future)
+        // Just accept that this is what I need.
         public static ZoneType GetObjectZone(Transform objectTransform)
         {
             switch (objectTransform.position.y)
