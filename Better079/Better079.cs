@@ -1,5 +1,6 @@
 ﻿using Better079.Events;
 using Exiled.API.Features;
+using HarmonyLib;
 using System;
 
 namespace Better079
@@ -12,12 +13,15 @@ namespace Better079
         public static Better079 Instance;
 
         private PlayerHandlers _playerHandlers;
+        private Harmony _harmonyInstance;
 
         public override void OnEnabled()
         {
             Instance = this;
 
             RegisterEvents();
+            
+            PatchAll();
 
             base.OnEnabled();
         }
@@ -25,12 +29,30 @@ namespace Better079
         public override void OnDisabled()
         {
             UnregisterEvents();
+            
+            UnpatchAll();
 
             Instance = null;
 
             base.OnDisabled();
         }
+        
+        // Patching
 
+        private void PatchAll()
+        {
+            _harmonyInstance = new Harmony($"Better079Patch{DateTime.UtcNow.Ticks}");
+            
+            _harmonyInstance.PatchAll();
+        }
+
+        private void UnpatchAll()
+        {
+            _harmonyInstance.UnpatchAll();
+
+            _harmonyInstance = null;
+        }
+        
         // Events
 
         private void RegisterEvents()
@@ -38,15 +60,11 @@ namespace Better079
             _playerHandlers = new PlayerHandlers();
 
             Exiled.Events.Handlers.Player.Spawning += _playerHandlers.OnSpawning;
-            Exiled.Events.Handlers.Player.Died += _playerHandlers.OnDied;
-            Exiled.Events.Handlers.Player.ChangingRole += _playerHandlers.OnChangingRole;
         }
 
         private void UnregisterEvents()
         {
             Exiled.Events.Handlers.Player.Spawning -= _playerHandlers.OnSpawning;
-            Exiled.Events.Handlers.Player.Died -= _playerHandlers.OnDied;
-            Exiled.Events.Handlers.Player.ChangingRole -= _playerHandlers.OnChangingRole;
 
             _playerHandlers = null;
         }

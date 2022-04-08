@@ -51,7 +51,6 @@ namespace Better079.Commands
                 }
 
                 Map.PlayAmbientSound(6);
-                Map.PlayIntercomSound(false);
 
                 _dropAllowed = false;
 
