@@ -14,4 +14,4 @@
 > **All features and cooldowns for them that presented in plugin can be changed and customized in config.**
 
 ## Plugin Installation
-> Download last release on releases page and put Better079.dll into EXILED/Plugins/ folder. Goodluck!
+> Download last release on releases page and put Better079.dll into ``EXILED/Plugins/`` folder. Goodluck!
