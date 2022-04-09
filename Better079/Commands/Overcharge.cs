@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CommandSystem;
 using RemoteAdmin;
 using Exiled.API.Features;
@@ -28,6 +29,12 @@ namespace Better079.Commands
                 return false;
             }
 
+            if (!arguments.Any())
+            {
+                response = "Command should be called with argument (overcharge time)";
+                return false;
+            }
+
             Player player = Player.Get(sender);
 
             if (!player.Role.Is<Scp079Role>(out _))
@@ -35,7 +42,7 @@ namespace Better079.Commands
                 response = "Sorry but only SCP-079 can call this command.";
                 return true;
             }
-
+            
             Scp079PlayerScript playerScript = player.ReferenceHub.scp079PlayerScript;
 
             if (float.TryParse(arguments.At<string>(0), out float time) && playerScript.Mana >= Better079.Instance.Config.OverchargePrice)
@@ -47,8 +54,7 @@ namespace Better079.Commands
                 }
 
                 Map.TurnOffAllLights(time);
-
-                Map.AmbientSoundPlayer.RpcPlaySound(UnityEngine.Random.Range(6, 7));
+                Map.PlayAmbientSound(UnityEngine.Random.Range(6, 7));
 
                 playerScript.Mana -= Better079.Instance.Config.OverchargePrice;
 

@@ -55,15 +55,11 @@ namespace Better079.Components
 
         public IEnumerator<float> CallSystemGlitch()
         {
-            _playerHub.scp079PlayerScript.Mana -= Better079.Instance.Config.Scp2179EnergyLost;
+            _playerRole.Energy -= Better079.Instance.Config.Scp2179EnergyLost;
 
-            Scp079Role scp079Role = _player.Role as Scp079Role;
-            
-            scp079Role.Energy -= Better079.Instance.Config.Scp2179EnergyLost;
-            
             for (int i = 0; i < 5; i++)
             {
-                scp079Role.Camera = Camera.Random;
+                _playerRole.Camera = Camera.Random;
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -71,11 +67,9 @@ namespace Better079.Components
         
         private IEnumerator<float> AutoTierLevelup()
         {
-            Scp079PlayerScript playerScript = _playerHub.scp079PlayerScript;
-
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);
 
-            playerScript.ForceLevel((byte)Better079.Instance.Config.AutoTierLevel, true);
+            _playerRole.Level = (byte)Better079.Instance.Config.AutoTierLevel;
         }
     }
 }

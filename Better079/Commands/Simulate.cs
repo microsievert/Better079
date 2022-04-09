@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
@@ -45,7 +46,7 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (arguments.Count >= 1)
+            if (arguments.Any())
             {
                 string cassieKey = arguments.At<string>(0);
                 if (Better079.Instance.Config.SimulateCassies.ContainsKey(arguments.At<string>(0)))

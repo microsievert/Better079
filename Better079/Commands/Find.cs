@@ -76,9 +76,6 @@ namespace Better079.Commands
             return true;
         }
 
-        private Player SelectRandomPlayer(List<Player> list)
-        {
-            return list[Random.Range(0, list.Count)];
-        }
+        private Player SelectRandomPlayer(List<Player> list) => list[Random.Range(0, list.Count)];
     }
 }
