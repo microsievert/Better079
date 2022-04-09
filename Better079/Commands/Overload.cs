@@ -11,6 +11,7 @@ namespace Better079.Commands
     public class Overload : ICommand
     {
         public string Command => "overload";
+
         public string Description => "Disabling all engaged generators (Can be called only as SCP-079)";
 
         public string[] Aliases => Array.Empty<string>();
@@ -25,7 +26,7 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (!(sender is PlayerCommandSender))
+            if (sender is not PlayerCommandSender)
             {
                 response = "Only players can call this command.";
                 return false;

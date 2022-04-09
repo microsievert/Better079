@@ -10,6 +10,7 @@ namespace Better079.Commands
     public class Overcharge : ICommand
     {
         public string Command => "overcharge";
+
         public string Description => "Disables all light in facility for selected time (Can be called only as SCP-079)";
 
         public string[] Aliases => Array.Empty<string>();
@@ -22,9 +23,15 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (!(sender is PlayerCommandSender))
+            if (sender is not PlayerCommandSender)
             {
                 response = "Only players can call this command.";
+                return false;
+            }
+
+            if (arguments.Count is not 1)
+            {
+                response = "Using: .overcharge (time)";
                 return false;
             }
 
@@ -38,7 +45,7 @@ namespace Better079.Commands
 
             Scp079PlayerScript playerScript = player.ReferenceHub.scp079PlayerScript;
 
-            if (float.TryParse(arguments.At<string>(0), out float time) && playerScript.Mana >= Better079.Instance.Config.OverchargePrice)
+            if (float.TryParse(arguments.At(0), out float time) && playerScript.Mana >= Better079.Instance.Config.OverchargePrice)
             {
                 if (time > Better079.Instance.Config.OverchargeMaxtime)
                 {

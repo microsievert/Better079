@@ -14,6 +14,7 @@ namespace Better079.Commands
     public class Find : ICommand
     {
         public string Command => "find";
+
         public string Description => "Teleport to random player room";
 
         public string[] Aliases => Array.Empty<string>();
@@ -28,7 +29,7 @@ namespace Better079.Commands
                 return false;
             }
             
-            if (!(sender is PlayerCommandSender))
+            if (sender is not PlayerCommandSender)
             {
                 response = "Error. Only players can use this command.";
                 return false;
@@ -76,9 +77,6 @@ namespace Better079.Commands
             return true;
         }
 
-        private Player SelectRandomPlayer(List<Player> list)
-        {
-            return list[Random.Range(0, list.Count)];
-        }
+        private Player SelectRandomPlayer(List<Player> list) => list[Random.Range(0, list.Count)];
     }
 }

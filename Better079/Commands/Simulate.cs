@@ -11,6 +11,7 @@ namespace Better079.Commands
     public class Simulate : ICommand
     {
         public string Command => "simulate";
+
         public string Description => "Send fake message to C.A.S.S.I.E by ID";
 
         public string[] Aliases => Array.Empty<string>();
@@ -25,7 +26,7 @@ namespace Better079.Commands
                 return false;
             }
             
-            if (!(sender is PlayerCommandSender))
+            if (sender is not PlayerCommandSender)
             {
                 response = "Only players can call this command.";
                 return false;
@@ -47,7 +48,7 @@ namespace Better079.Commands
 
             if (arguments.Count >= 1)
             {
-                string cassieKey = arguments.At<string>(0);
+                string cassieKey = arguments.At(0);
                 if (Better079.Instance.Config.SimulateCassies.ContainsKey(arguments.At<string>(0)))
                 {
                     Cassie.GlitchyMessage(Better079.Instance.Config.SimulateCassies[cassieKey], 4, 0.2f);
