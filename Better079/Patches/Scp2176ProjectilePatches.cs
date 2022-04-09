@@ -16,6 +16,9 @@ namespace Better079.Patches
             
             Room explosionRoom = Map.FindParentRoom(__instance.gameObject);
 
+            if (explosionRoom == null)
+                return;
+
             if (Better079.Instance.Config.Scp2176DamageRooms.Contains(explosionRoom.Type))
             {
                 foreach (Player player in Player.Get(RoleType.Scp079))
