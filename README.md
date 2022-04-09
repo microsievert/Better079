@@ -1,4 +1,4 @@
-# Better 079 (v1.1.2)
+# Better 079 (v1.1.3)
 > This plugin adds many new abilities to SCP-079 for a more interesting game or roleplaying experience. The added features will not interfere with roleplaying and give the subject unlimited possibilities. **The plugin is ready to work with Exiled 5**
 > 
 #### With this plugin, SCP-079 will be able to:
