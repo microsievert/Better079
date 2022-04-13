@@ -21,7 +21,7 @@ namespace Better079.Commands
         {
             if (!Better079.Instance.Config.GeneratorsDropEnabled)
             {
-                response = "Command disabled by server owner.";
+                response = "Command disabled by server owner or you is not player.";
                 return false;
             }
 
@@ -32,8 +32,9 @@ namespace Better079.Commands
             }
 
             Player player = Player.Get(sender);
-
-            if (!player.Role.Is<Scp079Role>(out _))
+            Scp079Role playerRole;
+            
+            if (!player.Role.Is(out playerRole))
             {
                 response = "Sorry but only SCP-079 can call this command.";
                 return true;
@@ -41,7 +42,7 @@ namespace Better079.Commands
             
             if (_dropAllowed)
             {
-                player.ReferenceHub.scp079PlayerScript.Mana = 0f;
+                playerRole.Script.Mana = 0f;
 
                 foreach (Generator generator in Generator.List)
                 {

@@ -26,9 +26,15 @@ namespace Better079.Commands
                 return false;
             }
             
-            if (!(sender is PlayerCommandSender))
+            if (!(sender is PlayerCommandSender) || !arguments.Any())
             {
-                response = "Only players can call this command.";
+                string consoleNotice = "\n Command should be called as player and with cassie id. IDs: ";
+                foreach (string id in Better079.Instance.Config.SimulateCassies.Keys)
+                {
+                    consoleNotice = consoleNotice + $"\n {id}";
+                }
+                
+                response = consoleNotice;
                 return false;
             }
 
@@ -46,32 +52,23 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (arguments.Any())
+            string cassieKey = arguments.At(0);
+            if (Better079.Instance.Config.SimulateCassies.ContainsKey(arguments.At(0)))
             {
-                string cassieKey = arguments.At<string>(0);
-                if (Better079.Instance.Config.SimulateCassies.ContainsKey(arguments.At<string>(0)))
-                {
-                    Cassie.GlitchyMessage(Better079.Instance.Config.SimulateCassies[cassieKey], 4, 0.2f);
-                }
-
-                _simulateAllowed = false;
-
-                Timing.CallDelayed(Better079.Instance.Config.SimulateCooldown, () => _simulateAllowed = true);
-
-                response = "Fake C.A.S.S.I.E message injected successfully";
-                return true;
+                Cassie.GlitchyMessage(Better079.Instance.Config.SimulateCassies[cassieKey], 4, 0.2f);
             }
             else
             {
-                string consoleNotice = "\n Command should be called with cassie id. IDs: ";
-                foreach (string id in Better079.Instance.Config.SimulateCassies.Keys)
-                {
-                    consoleNotice = consoleNotice + $"\n {id}";
-                }
-
-                response = consoleNotice;
+                response = "Error. Unknown cassie id. Enter this command without arguments to see all message id's";
                 return false;
             }
+
+            _simulateAllowed = false;
+
+            Timing.CallDelayed(Better079.Instance.Config.SimulateCooldown, () => _simulateAllowed = true);
+
+            response = "Fake C.A.S.S.I.E message injected successfully";
+            return true;
         }
     }
 }

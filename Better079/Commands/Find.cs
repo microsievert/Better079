@@ -35,9 +35,9 @@ namespace Better079.Commands
             }
 
             Player caller = Player.Get(sender);
-            Scp079Role callerRole;
+            Scp079Role scp079Role;
 
-            if (!caller.Role.Is(out callerRole))
+            if (!caller.Role.Is(out scp079Role))
             {
                 response = "Error. Only SCP-079 can use this command";
                 return false;
@@ -66,7 +66,7 @@ namespace Better079.Commands
                 playerSelected = true;
             }
 
-            callerRole.Camera = targetPlayer.CurrentRoom.Cameras.First();
+            scp079Role.Camera = targetPlayer.CurrentRoom.Cameras.First();
             
             _findAllowed = false;
 

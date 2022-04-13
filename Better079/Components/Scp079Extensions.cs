@@ -29,10 +29,8 @@ namespace Better079.Components
 
         private IEnumerator<float> MapUpdate()
         {
-            Scp079PlayerScript scp079Script = _playerHub.scp079PlayerScript;
-
             yield return Timing.WaitForSeconds(1f);
-
+            
             HashSet<Vector3> coordinatesPocket = new HashSet<Vector3>();
 
             for (;;)
@@ -45,7 +43,7 @@ namespace Better079.Components
                     coordinatesPocket.Add(target.Position);
                 }
 
-                scp079Script.TargetSetupIndicators(_playerHub.networkIdentity.connectionToClient, coordinatesPocket.ToList());
+                _playerRole.Script.TargetSetupIndicators(_playerHub.networkIdentity.connectionToClient, coordinatesPocket.ToList());
 
                 coordinatesPocket.Clear();
 

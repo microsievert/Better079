@@ -23,29 +23,22 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (!(sender is PlayerCommandSender))
+            if (!(sender is PlayerCommandSender) || !arguments.Any())
             {
-                response = "Only players can call this command.";
-                return false;
-            }
-
-            if (!arguments.Any())
-            {
-                response = "Command should be called with argument (overcharge time)";
+                response = "Command cannot be executed without required arguments or in console.";
                 return false;
             }
 
             Player player = Player.Get(sender);
+            Scp079Role playerRole;
 
-            if (!player.Role.Is<Scp079Role>(out _))
+            if (!player.Role.Is(out playerRole))
             {
                 response = "Sorry but only SCP-079 can call this command.";
                 return true;
             }
-            
-            Scp079PlayerScript playerScript = player.ReferenceHub.scp079PlayerScript;
 
-            if (float.TryParse(arguments.At<string>(0), out float time) && playerScript.Mana >= Better079.Instance.Config.OverchargePrice)
+            if (float.TryParse(arguments.At(0), out float time) && playerRole.Script.Mana >= Better079.Instance.Config.OverchargePrice)
             {
                 if (time > Better079.Instance.Config.OverchargeMaxtime)
                 {
@@ -56,14 +49,16 @@ namespace Better079.Commands
                 Map.TurnOffAllLights(time);
                 Map.PlayAmbientSound(UnityEngine.Random.Range(6, 7));
 
-                playerScript.Mana -= Better079.Instance.Config.OverchargePrice;
+                playerRole.Script.Mana -= Better079.Instance.Config.OverchargePrice;
 
                 response = "Command successfully executed by facility servers.";
                 return true;
             }
-
-            response = "Command execution error";
-            return true;
+            else
+            {
+                response = $"You don't have energy to use ability ({Better079.Instance.Config.OverchargePrice} points) or you is using incorrect time format (time should be writed in seconds).";
+                return false;
+            }
         }
     }
 }
