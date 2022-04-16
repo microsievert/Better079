@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Exiled.API.Interfaces;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using Exiled.API.Enums;
 
 namespace Better079

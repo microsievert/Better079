@@ -62,7 +62,7 @@ namespace Better079.Components
                 yield return Timing.WaitForSeconds(1f);
             }
         }
-        
+
         private IEnumerator<float> AutoTierLevelup()
         {
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);

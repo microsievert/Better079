@@ -35,9 +35,8 @@ namespace Better079.Commands
             }
 
             Player caller = Player.Get(sender);
-            Scp079Role scp079Role;
 
-            if (!caller.Role.Is(out scp079Role))
+            if (!caller.Role.Is(out Scp079Role scp079Role))
             {
                 response = "Error. Only SCP-079 can use this command";
                 return false;
@@ -54,16 +53,21 @@ namespace Better079.Commands
             Player targetPlayer = SelectRandomPlayer(playerList);
 
             bool playerSelected = false;
-
-            while (!playerSelected)
+            for (int i = 0; i < playerList.Count; i++)
             {
-                if (targetPlayer.CurrentRoom == null || targetPlayer.CurrentRoom.Cameras == null || targetPlayer == caller)
+                if (targetPlayer.CurrentRoom != null && targetPlayer.CurrentRoom.Cameras != null && targetPlayer != caller)
                 {
-                    targetPlayer = SelectRandomPlayer(playerList);
-                    continue;
+                    playerSelected = true;
+                    break;
                 }
 
-                playerSelected = true;
+                targetPlayer = SelectRandomPlayer(playerList);
+            }
+
+            if (!playerSelected)
+            {
+                response = "Error! The system cannot find a suitable player. Try again.";
+                return false;
             }
 
             scp079Role.Camera = targetPlayer.CurrentRoom.Cameras.First();

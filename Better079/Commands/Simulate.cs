@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
@@ -28,13 +29,11 @@ namespace Better079.Commands
             
             if (!(sender is PlayerCommandSender) || !arguments.Any())
             {
-                string consoleNotice = "\n Command should be called as player and with cassie id. IDs: ";
+                StringBuilder consoleNotice = new StringBuilder("\n Command should be called as player and with cassie id. IDs: ");
                 foreach (string id in Better079.Instance.Config.SimulateCassies.Keys)
-                {
-                    consoleNotice = consoleNotice + $"\n {id}";
-                }
-                
-                response = consoleNotice;
+                    consoleNotice.Append($"\n {id}");
+
+                response = consoleNotice.ToString();
                 return false;
             }
 
