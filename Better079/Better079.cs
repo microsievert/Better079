@@ -48,7 +48,7 @@ namespace Better079
 
         private void UnpatchAll()
         {
-            _harmonyInstance.UnpatchAll();
+            _harmonyInstance.UnpatchAll(_harmonyInstance.Id);
 
             _harmonyInstance = null;
         }
