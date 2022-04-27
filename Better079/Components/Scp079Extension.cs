@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MEC;
 using UnityEngine;
 using Exiled.API.Features;
 using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Features.Roles;
 using Camera = Exiled.API.Features.Camera;
 
 namespace Better079.Components
 {
-    public class Scp079Extensions : MonoBehaviour
+    public class Scp079Extension : MonoBehaviour
     {
         private Player _player;
         private ReferenceHub _playerHub;
@@ -26,7 +28,23 @@ namespace Better079.Components
             if (Better079.Instance.Config.AutoTierEnabled)
                 Timing.RunCoroutine(AutoTierLevelup());
         }
+        
+        public void ForceEscape(Team team)
+        {
+            if (Better079.Instance.Config.EscapeActivateWarhead)
+                Warhead.Start();
+            
+            if (Better079.Instance.Config.EscapeBypassEnabled)
+                foreach (Player player in Player.Get(team))
+                    player.IsBypassModeEnabled = true;
 
+            if (Better079.Instance.Config.EscapeCassie != String.Empty)
+                Cassie.Message(Better079.Instance.Config.EscapeCassie, isSubtitles: false);
+            
+            if (Better079.Instance.Config.EscapeForceclass)
+                _player.SetRole(RoleType.Spectator, SpawnReason.Escaped);
+        }
+        
         private IEnumerator<float> MapUpdate()
         {
             yield return Timing.WaitForSeconds(1f);

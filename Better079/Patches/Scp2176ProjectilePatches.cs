@@ -23,7 +23,7 @@ namespace Better079.Patches
             {
                 foreach (Player player in Player.Get(RoleType.Scp079))
                 {
-                    if (player.GameObject.TryGetComponent(out Scp079Extensions extensionsScript))
+                    if (player.GameObject.TryGetComponent(out Scp079Extension extensionsScript))
                         Timing.RunCoroutine(extensionsScript.CallSystemGlitch());
                 }
             }

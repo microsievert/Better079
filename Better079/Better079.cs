@@ -5,7 +5,7 @@ using System;
 
 namespace Better079
 {
-    public class Better079 : Plugin<Config>
+    public class Better079 : Plugin<Config, Translation>
     {
         public override string Author { get; } = "microsievert";
         public override Version RequiredExiledVersion { get; } = new Version("5.0.0");
@@ -60,11 +60,13 @@ namespace Better079
             _playerHandlers = new PlayerHandlers();
 
             Exiled.Events.Handlers.Player.Spawning += _playerHandlers.OnSpawning;
+            Exiled.Events.Handlers.Player.DroppingItem += _playerHandlers.OnDroppingItem;
         }
 
         private void UnregisterEvents()
         {
             Exiled.Events.Handlers.Player.Spawning -= _playerHandlers.OnSpawning;
+            Exiled.Events.Handlers.Player.DroppingItem -= _playerHandlers.OnDroppingItem;
 
             _playerHandlers = null;
         }
