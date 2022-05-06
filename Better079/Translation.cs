@@ -16,5 +16,8 @@ namespace Better079
 
         [Description("User will see this message if no active players as SCP-079 found")]
         public string HackFailureNoPlayers { get; private set; } = "Hack failure. No SCP-079 detected in facility system";
+
+        [Description("User will see this message on spawn as SCP-079")]
+        public string SpawnMessage { get; private set; } = "Connecting... Access granted. <color=red>Open your console and enter .help to see your abilities</color>";
     }
 }

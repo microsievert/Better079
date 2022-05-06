@@ -13,7 +13,7 @@ namespace Better079.Commands
     public class Simulate : ICommand
     {
         public string Command => "simulate";
-        public string Description => "Send fake message to C.A.S.S.I.E by ID";
+        public string Description => "[SCP-079 ABILITY] Send fake message to C.A.S.S.I.E by ID";
 
         public string[] Aliases => Array.Empty<string>();
 

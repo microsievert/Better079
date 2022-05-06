@@ -2,8 +2,6 @@
 using Exiled.Events.EventArgs;
 using Better079.Components;
 using MEC;
-using Mirror;
-using UnityEngine;
 
 namespace Better079.Events
 {
@@ -13,7 +11,16 @@ namespace Better079.Events
         {
             if (!ev.Player.Role.Is<Scp079Role>(out _))
                 return;
-            
+
+            if (Better079.Instance.Config.Scp079SpawnMessageEnabled)
+            {
+                Timing.CallDelayed(10f, () =>
+                {
+                    if (ev.Player != null) 
+                        ev.Player.ShowHint(Better079.Instance.Translation.SpawnMessage);
+                });
+            }
+
             ev.Player.GameObject.AddComponent<Scp079Extension>();
         }
 

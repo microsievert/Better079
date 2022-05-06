@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Exiled.API.Interfaces;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using Exiled.API.Enums;
 
 namespace Better079
@@ -9,6 +8,9 @@ namespace Better079
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
+
+        [Description("Enable/Disable spawn message for SCP-079")]
+        public bool Scp079SpawnMessageEnabled { get; set; } = true;
 
         [Description("Is SCP-2176 damage to SCP-079 enabled")]
         public bool Scp2179DamageEnabled { get; set; } = true;

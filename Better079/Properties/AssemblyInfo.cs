@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Better079")]
-[assembly: AssemblyDescription("SCP:SL modification for SCP-079")]
+[assembly: AssemblyDescription("SCP:SL plugin that reworks SCP-079")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("microsievert")]
 [assembly: AssemblyProduct("Better079")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.1.0")]
+[assembly: AssemblyVersion("1.2.2.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

@@ -11,7 +11,7 @@ namespace Better079.Commands
     public class Overload : ICommand
     {
         public string Command => "overload";
-        public string Description => "Disabling all engaged generators (Can be called only as SCP-079)";
+        public string Description => "[SCP-079 ABILITY] Disabling all engaged generators (Can be called only as SCP-079)";
 
         public string[] Aliases => Array.Empty<string>();
 

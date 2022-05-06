@@ -12,7 +12,7 @@ namespace Better079.Commands
     public class Copy : ICommand
     {
         public string Command => "copy";
-        public string Description => "Allows you to copy SCP-079 and help he escape.";
+        public string Description => "[SCP-079 SUPPORT ABILITY] Allows you to copy SCP-079 and help he escape.";
 
         public string[] Aliases => Array.Empty<string>();
 

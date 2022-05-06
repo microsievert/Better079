@@ -14,7 +14,7 @@ namespace Better079.Commands
     public class Find : ICommand
     {
         public string Command => "find";
-        public string Description => "Teleport to random player room";
+        public string Description => "[SCP-079 ABILITY] Teleport to random player room";
 
         public string[] Aliases => Array.Empty<string>();
 
