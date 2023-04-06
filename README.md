@@ -9,6 +9,7 @@
 - SCP-2176 will damage SCP-079. When SCP-2176 explodes in special rooms (rooms should be writed in config) SCP-079 lost all energy and gets critical camera system errors to ~6 seconds.
 - This plugin allows you to set the initial Tier for SCP-079 or automatically issue any tier after any length of time.
 - This plugin allows allied teams (alliance commands are set in the plugin) to copy SCP-079 and take it out of the facility, allowing SCP-079 to escape, and subsequently gaining additional powers for the entire team of the person who carried SCP-079 on the device. The main carrier with SCP-079 is the device of the Chaos Rebels, to start copying, you need to go to one of the rooms set in the config and enter the ``.copy`` command into the client console, and then wait for the copying process to complete and take the object through the escape zone of the game.
+- In this update has been added remote admin command ``shutdown <playerId> <time>`` that will allow users with ``bpc.shutdown`` permission to lose SCP-079 signal for specified time (in seconds).
 
 ## Plugin Configuration & Customization features
 > **All features and cooldowns for them that presented in plugin can be changed and customized in config.**
