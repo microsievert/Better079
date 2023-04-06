@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Linq;
-using Better079.Components;
-using CommandSystem;
+
 using Exiled.API.Features;
-using MEC;
+
+using PlayerRoles;
+
 using RemoteAdmin;
+
+using CommandSystem;
+
+using MEC;
+
+using Better079.Components;
 
 namespace Better079.Commands
 {
@@ -55,20 +62,21 @@ namespace Better079.Commands
             {
                 if (caller.CurrentRoom == null || room != caller.CurrentRoom || caller.CurrentItem == null || caller.CurrentItem.Type != ItemType.KeycardChaosInsurgency)
                 {
-                    caller.ShowHint(Better079.Instance.Translation.HackFailure);
+                    caller.ShowHint(Better079.Instance.Translation.HackFailure, 10f);
                     
                     return;
                 }
 
-                if (!Player.Get(RoleType.Scp079).Any())
+                if (!Player.Get(RoleTypeId.Scp079).Any())
                 {
-                    caller.ShowHint(Better079.Instance.Translation.HackFailureNoPlayers);
+                    caller.ShowHint(Better079.Instance.Translation.HackFailureNoPlayers, 10f);
                     
                     return;
                 }
 
                 caller.GameObject.AddComponent<Scp079Assistant>();
-                caller.ShowHint(Better079.Instance.Translation.HackSuccessfully);
+                
+                caller.ShowHint(Better079.Instance.Translation.HackSuccessfully, 10f);
 
                 if (Better079.Instance.Config.CopyCassie == String.Empty)
                     return;

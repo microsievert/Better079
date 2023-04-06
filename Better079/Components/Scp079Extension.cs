@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using MEC;
-using UnityEngine;
+
 using Exiled.API.Features;
-using System.Linq;
-using Exiled.API.Enums;
 using Exiled.API.Features.Roles;
-using Camera = Exiled.API.Features.Camera;
+
+using UnityEngine;
+
+using PlayerRoles;
+
+using MEC;
 
 namespace Better079.Components
 {
@@ -22,11 +24,8 @@ namespace Better079.Components
             _player = Player.Get(_playerHub);
             _playerRole = _player.Role as Scp079Role;
 
-            if (Better079.Instance.Config.BetterMapEnabled)
-               Timing.RunCoroutine(MapUpdate());
-            
             if (Better079.Instance.Config.AutoTierEnabled)
-                Timing.RunCoroutine(AutoTierLevelup());
+                Timing.RunCoroutine(AutoTierUpgrade());
         }
         
         public void ForceEscape(Team team)
@@ -42,46 +41,17 @@ namespace Better079.Components
                 Cassie.Message(Better079.Instance.Config.EscapeCassie, isSubtitles: false);
             
             if (Better079.Instance.Config.EscapeForceclass)
-                _player.SetRole(RoleType.Spectator, SpawnReason.Escaped);
-        }
-        
-        private IEnumerator<float> MapUpdate()
-        {
-            yield return Timing.WaitForSeconds(1f);
-            
-            HashSet<Vector3> coordinatesPocket = new HashSet<Vector3>();
-
-            for (;;)
-            {
-                foreach (Player target in Player.Get(x => x.IsAlive))
-                {
-                    if (target.Zone != _playerRole.Camera.Zone || target.Role.Is<Scp079Role>(out _))
-                        continue;
-
-                    coordinatesPocket.Add(target.Position);
-                }
-
-                _playerRole.Script.TargetSetupIndicators(_playerHub.networkIdentity.connectionToClient, coordinatesPocket.ToList());
-
-                coordinatesPocket.Clear();
-
-                yield return Timing.WaitForSeconds(0.6f);
-            }
+                _player.RoleManager.ServerSetRole(RoleTypeId.Spectator, RoleChangeReason.Escaped, RoleSpawnFlags.All);
         }
 
-        public IEnumerator<float> CallSystemGlitch()
+        public void CallSystemGlitch()
         {
             _playerRole.Energy -= Better079.Instance.Config.Scp2179EnergyLost;
-
-            for (int i = 0; i < 5; i++)
-            {
-                _playerRole.Camera = Camera.Random;
-
-                yield return Timing.WaitForSeconds(1f);
-            }
+            
+            _playerRole.LoseSignal(15f);
         }
 
-        private IEnumerator<float> AutoTierLevelup()
+        private IEnumerator<float> AutoTierUpgrade()
         {
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);
 

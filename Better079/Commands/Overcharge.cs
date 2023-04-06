@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
-using CommandSystem;
-using RemoteAdmin;
+
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
+
+using CommandSystem;
+
+using RemoteAdmin;
 
 namespace Better079.Commands
 {
@@ -38,7 +41,7 @@ namespace Better079.Commands
                 return true;
             }
 
-            if (float.TryParse(arguments.At(0), out float time) && playerRole.Script.Mana >= Better079.Instance.Config.OverchargePrice)
+            if (float.TryParse(arguments.At(0), out float time) && playerRole.Energy >= Better079.Instance.Config.OverchargePrice)
             {
                 if (time > Better079.Instance.Config.OverchargeMaxtime)
                 {
@@ -47,18 +50,17 @@ namespace Better079.Commands
                 }
 
                 Map.TurnOffAllLights(time);
+                
                 Map.PlayAmbientSound(UnityEngine.Random.Range(6, 7));
 
-                playerRole.Script.Mana -= Better079.Instance.Config.OverchargePrice;
+                playerRole.Energy -= Better079.Instance.Config.OverchargePrice;
 
                 response = "Command successfully executed by facility servers.";
                 return true;
             }
-            else
-            {
-                response = $"You don't have energy to use ability ({Better079.Instance.Config.OverchargePrice} points) or you is using incorrect time format (time should be writed in seconds).";
-                return false;
-            }
+            
+            response = $"You don't have energy to use ability ({Better079.Instance.Config.OverchargePrice} points) or you is using incorrect time format (time should be writed in seconds).";
+            return false;
         }
     }
 }

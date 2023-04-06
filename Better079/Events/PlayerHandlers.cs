@@ -1,7 +1,9 @@
 ﻿using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs;
-using Better079.Components;
+using Exiled.Events.EventArgs.Player;
+
 using MEC;
+
+using Better079.Components;
 
 namespace Better079.Events
 {
@@ -17,7 +19,7 @@ namespace Better079.Events
                 Timing.CallDelayed(10f, () =>
                 {
                     if (ev.Player != null) 
-                        ev.Player.ShowHint(Better079.Instance.Translation.SpawnMessage);
+                        ev.Player.ShowHint(Better079.Instance.Translation.SpawnMessage, 10f);
                 });
             }
 

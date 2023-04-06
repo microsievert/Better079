@@ -1,8 +1,12 @@
-﻿using Better079.Components;
-using InventorySystem.Items.ThrowableProjectiles;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
+
 using HarmonyLib;
-using MEC;
+
+using PlayerRoles;
+
+using InventorySystem.Items.ThrowableProjectiles;
+
+using Better079.Components;
 
 namespace Better079.Patches
 {
@@ -14,19 +18,15 @@ namespace Better079.Patches
             if (!Better079.Instance.Config.Scp2179DamageEnabled)
                 return;
             
-            Room explosionRoom = Map.FindParentRoom(__instance.gameObject);
+            Room explosionRoom = Map.FindParentRoom(__instance._transform.gameObject);
 
             if (explosionRoom == null)
                 return;
 
             if (Better079.Instance.Config.Scp2176DamageRooms.Contains(explosionRoom.Type))
-            {
-                foreach (Player player in Player.Get(RoleType.Scp079))
-                {
+                foreach (Player player in Player.Get(RoleTypeId.Scp079))
                     if (player.GameObject.TryGetComponent(out Scp079Extension extensionsScript))
-                        Timing.RunCoroutine(extensionsScript.CallSystemGlitch());
-                }
-            }
+                        extensionsScript.CallSystemGlitch();
         }
     }
 }

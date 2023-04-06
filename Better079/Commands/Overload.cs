@@ -1,21 +1,23 @@
-﻿using CommandSystem;
-using RemoteAdmin;
-using System;
+﻿using System;
+
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
-using MEC;
+
+using CommandSystem;
+
+using RemoteAdmin;
+
+using Better079.API.Classes;
 
 namespace Better079.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    public class Overload : ICommand
+    public class Overload : DelayedCommand, ICommand
     {
         public string Command => "overload";
         public string Description => "[SCP-079 ABILITY] Disabling all engaged generators (Can be called only as SCP-079)";
 
         public string[] Aliases => Array.Empty<string>();
-
-        private bool _dropAllowed = true;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -40,9 +42,9 @@ namespace Better079.Commands
                 return true;
             }
             
-            if (_dropAllowed)
+            if (_isReady)
             {
-                playerRole.Script.Mana = 0f;
+                playerRole.Energy = 0f;
 
                 foreach (Generator generator in Generator.List)
                 {
@@ -53,18 +55,14 @@ namespace Better079.Commands
 
                 Map.PlayAmbientSound(6);
 
-                _dropAllowed = false;
-
-                Timing.CallDelayed(Better079.Instance.Config.GeneratorsDropCooldown, () => _dropAllowed = true);
+                ForceDelay(Better079.Instance.Config.GeneratorsDropCooldown);
 
                 response = "Successfully protected. Generators disabled.";
                 return true;
             }
-            else
-            {
-                response = "Denied. Request error. Wait access.";
-                return false;
-            }
+            
+            response = "Denied. Request error. Wait access.";
+            return false;
         }
     }
 }

@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
-using Exiled.API.Interfaces;
 using System.ComponentModel;
+
+using Exiled.API.Interfaces;
 using Exiled.API.Enums;
+
+using PlayerRoles;
 
 namespace Better079
 {
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
+        
+        public bool Debug { get; set; } = false;
 
         [Description("Enable/Disable spawn message for SCP-079")]
         public bool Scp079SpawnMessageEnabled { get; set; } = true;
@@ -56,6 +61,9 @@ namespace Better079
         [Description("Allo SCP-079 to use .find ability")]
         public bool FindEnabled { get; set; } = true;
 
+        [Description("Allow SCP-079 to find specified player by name/id?")]
+        public bool FindSpecified { get; set; } = true;
+
         [Description("SCP-079 .find cooldown in seconds")]
         public float FindCooldown { get; set; } = 20f;
 
@@ -85,8 +93,8 @@ namespace Better079
         [Description("Which teams can help SCP-079 escape?")]
         public List<Team> CopyAllowedTeams { get; set; } = new List<Team>
         {
-            Team.CDP,
-            Team.CHI
+            Team.ClassD,
+            Team.ChaosInsurgency
         };
 
         [Description("In which rooms copy command can be used?")]

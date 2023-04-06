@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommandSystem;
+
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
+
+using CommandSystem;
+
 using RemoteAdmin;
-using MEC;
+
+using PlayerRoles;
+
+using Better079.API.Classes;
+
 using Random = UnityEngine.Random;
 
 namespace Better079.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    public class Find : ICommand
+    public class Find : DelayedCommand, ICommand
     {
         public string Command => "find";
-        public string Description => "[SCP-079 ABILITY] Teleport to random player room";
+        public string Description => "[SCP-079 ABILITY] Teleport to random player room. Usage: .find <playerId/playerNick> or just .find";
 
         public string[] Aliases => Array.Empty<string>();
-
-        private bool _findAllowed = true;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -42,44 +47,96 @@ namespace Better079.Commands
                 return false;
             }
 
-            if (!_findAllowed)
+            if (!_isReady)
             {
                 response = "Error. Wait before use this ability again";
                 return false;
             }
-
-            List<Player> playerList = Player.List.ToList();
             
-            Player targetPlayer = SelectRandomPlayer(playerList);
+            ForceDelay(Better079.Instance.Config.FindCooldown);
 
-            bool playerSelected = false;
-            for (int i = 0; i < playerList.Count; i++)
+            if (arguments.Any() && Better079.Instance.Config.FindSpecified)
             {
-                if (targetPlayer.CurrentRoom != null && targetPlayer.CurrentRoom.Cameras != null && targetPlayer != caller)
+                if (TryFindSpecified(arguments.At(0), out Player targetPlayer) && TryFindCamera(targetPlayer, out Camera targetCam))
                 {
-                    playerSelected = true;
-                    break;
+                    scp079Role.Camera = targetCam;
+
+                    response = "Moving to target..";
+                    return true;
                 }
 
-                targetPlayer = SelectRandomPlayer(playerList);
-            }
-
-            if (!playerSelected)
-            {
-                response = "Error! The system cannot find a suitable player. Try again.";
+                response = "Player has not been found. Try again.";
                 return false;
             }
 
-            scp079Role.Camera = targetPlayer.CurrentRoom.Cameras.First();
-            
-            _findAllowed = false;
+            if (!TrySelectRandomTarget(Player.List, out Player randomTargetPlayer))
+            {
+                response = "No targets detected. Try again.";
+                return false;
+            }
 
-            Timing.CallDelayed(Better079.Instance.Config.FindCooldown, () => _findAllowed = true);
+            if (!TryFindCamera(randomTargetPlayer, out Camera targetCamSec))
+            {
+                response = "No cameras was found. Try again.`";
+                return false;
+            }
+
+            scp079Role.Camera = targetCamSec;
 
             response = "Switching camera...";
             return true;
         }
 
-        private Player SelectRandomPlayer(List<Player> list) => list[Random.Range(0, list.Count)];
+        private bool TrySelectRandomTarget(IEnumerable<Player> list, out Player resultPlayer)
+        {
+            IEnumerable<Player> targetPlayersList = list.Where(x => x.Role.Team != Team.SCPs);
+
+            if (!targetPlayersList.Any())
+            {
+                resultPlayer = null;
+                return false;
+            }
+
+            resultPlayer = targetPlayersList.ElementAt(Random.Range(0, targetPlayersList.Count() - 1));
+            return true;
+        }
+
+        private bool TryFindSpecified(string targetMention, out Player target)
+        {
+            if (int.TryParse(targetMention, out int playerId))
+            {
+                Player targetPlayer = Player.Get(playerId);
+
+                if (targetPlayer != null)
+                {
+                    target = targetPlayer;
+                    return true;
+                }
+            }
+
+            foreach (Player targetPlayer in Player.List)
+            {
+                if (targetPlayer.Nickname.Equals(targetMention))
+                {
+                    target = targetPlayer;
+                    return true;
+                }
+            }
+
+            target = null;
+            return false;
+        }
+
+        private bool TryFindCamera(Player player, out Camera targetCamera)
+        {
+            if (player.CurrentRoom.Cameras.Any())
+            {
+                targetCamera = player.CurrentRoom.Cameras.First();
+                return true;
+            }
+
+            targetCamera = null;
+            return false;
+        }
     }
 }
