@@ -54,8 +54,9 @@ namespace Better079.Components
         private IEnumerator<float> AutoTierUpgrade()
         {
             yield return Timing.WaitForSeconds(Better079.Instance.Config.AutoTierTime);
-
-            _playerRole.Level = (byte)Better079.Instance.Config.AutoTierLevel;
+            
+            if (_playerRole.Level < (byte)Better079.Instance.Config.AutoTierLevel)
+                _playerRole.Level = (byte)Better079.Instance.Config.AutoTierLevel;
         }
     }
 }
