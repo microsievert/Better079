@@ -26,8 +26,6 @@ namespace Better079
             Instance = this;
 
             RegisterEvents();
-            
-            PatchAll();
 
             base.OnEnabled();
         }
@@ -35,30 +33,12 @@ namespace Better079
         public override void OnDisabled()
         {
             UnregisterEvents();
-            
-            UnpatchAll();
 
             Instance = null;
 
             base.OnDisabled();
         }
-        
-        // Patching
 
-        private void PatchAll()
-        {
-            _harmonyInstance = new Harmony($"Better079Patch{DateTime.UtcNow.Ticks}");
-            
-            _harmonyInstance.PatchAll();
-        }
-
-        private void UnpatchAll()
-        {
-            _harmonyInstance.UnpatchAll(_harmonyInstance.Id);
-
-            _harmonyInstance = null;
-        }
-        
         // Events
 
         private void RegisterEvents()
