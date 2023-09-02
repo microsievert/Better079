@@ -12,8 +12,9 @@ namespace Better079
     {
         public override string Author => "microsievert";
         public override string Name => "Better079";
-        
-        public override Version RequiredExiledVersion { get; } = new ("6.0.0");
+
+        public override Version Version { get; } = new(3, 0, 0);
+        public override Version RequiredExiledVersion { get; } = new (8,0, 1);
 
         public static Better079 Instance;
 
